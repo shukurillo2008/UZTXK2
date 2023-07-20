@@ -1,0 +1,39 @@
+<----User----->
+superuser -> Glavniy admin
+staffuser -> Bolim boshlig'i
+
+
+<----Bo'lim---->
+title -> "Bo'lim"
+section_boss -> staffuserga FK
+
+
+<----Smen---->
+start_time -> TimeField
+end_time -> TimeField
+property funksiya -> Binoda yoki binodan tashqarida
+
+
+<---Xodim---->
+first_name -> chr
+last_name -> chr
+rasm -> imgF
+smen -> Smenga FK
+bolim -> Bo'limga FK
+Nfc -> chr
+
+
+<----davomat---->
+worker -> xodimga FK
+enter_time -> datetimeF
+exit_time -> datetimeF
+
+
+<----oshxona---->
+date -> dateF
+smen -> smenga FK
+
+
+<----Oshxona davomat---->
+oshxona -> oshxonaga FK
+xodim -> xodimga FK

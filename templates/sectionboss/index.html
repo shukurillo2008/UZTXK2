@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+			{% block content %}
+				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+
+					<div class="col">
+						<div class="card radius-10">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div>
+										<p class="mb-0">Ishchilar soni</p>
+										<h4 class="my-1">{{workers_count}}</h4>
+									</div>
+									<div class="ms-auto font-35 text-white"><i class='bx bxs-group'></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card radius-10">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div>
+										<p class="mb-0">ishhonada</p>
+										<h4 class="my-1">{{in_work}}</h4>
+									</div>
+									<div class="ms-auto font-35 text-white"><i class='bx bxs-user-plus'></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card radius-10">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div>
+										<p class="mb-0">ishhonadan tashqarida</p>
+										<h4 class="my-1">{{not_in_work}}</h4>
+									</div>
+									<div class="ms-auto font-35 text-white"><i class='bx bxs-user-x'></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="card radius-10">
+					<div class="card-body">
+						<div class="d-flex align-items-center">
+							<div>
+								<h5 class="mb-0">Binodan tashqarida</h5>
+							</div>
+							<div class="font-22 ms-auto"><i class='bx bx-dots-horizontal-rounded'></i>
+							</div>
+						</div>
+						<hr/>
+						<div class="table-responsive">
+							<table class="table align-middle mb-0">
+								<thead class="table-light">
+									<tr>
+										<th>№</th>
+										<th>Worker Id</th>
+										<th>Worker</th>
+										<th>Status</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- {% for worker in workers %} -->
+									<tr>
+										<td>{{ forloop.counter }}</td>
+										<td>{{worker.id}}</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<div class="ms-2">
+													<h6 class="mb-1 font-14">{{worker.name}} {{worker.last_name}}</h6>
+												</div>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center text-danger">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+												<span>Ish honada emas</span>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex order-actions">
+												<form action="{% url 'enter_url' %}" method="post">
+													{% csrf_token %}
+													<input type="hidden" value="{{worker.id}}" name="worker_id">
+													<button type="submit" class="btn btn-light"><i class='bx bx-plus me-0'></i>
+													</button>
+												</form>
+											</div>
+										</td>
+									</tr>
+									<!-- {% endfor %} -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+		<!--end page wrapper -->
+		<!--start overlay-->
+		{% endblock %}
