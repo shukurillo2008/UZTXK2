@@ -31,12 +31,12 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 <div class="ms-2">
-                                    <h6 class="mb-1 font-14"><a href="">{{worker.name}} {{worker.last_name}}</a></h6>
+                                    <h6 class="mb-1 font-14"><a href="">{{worker.first_name}} {{worker.last_name}}</a></h6>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            {{worker.work_shift.start}} --- {{worker.work_shift.end}}
+                            {{worker.worker_shift.start_time}} --- {{worker.worker_shift.end_time}}
                         </td>
                         <td>
                             <!-- {% if worker.in_work == False%} -->
