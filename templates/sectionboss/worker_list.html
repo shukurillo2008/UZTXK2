@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- {% for worker in workers %} -->
+                    {% for worker in workers %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>{{worker.id}}</td>
@@ -39,15 +39,15 @@
                             {{worker.worker_shift.start_time}} --- {{worker.worker_shift.end_time}}
                         </td>
                         <td>
-                            <!-- {% if worker.in_work == False%} -->
+                            {% if worker.in_work == False%}
                             <div class="d-flex align-items-center text-danger"><i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
                                 <span>Ish honada emas</span>
                             </div>
-                            <!-- {% else %} -->
+                            {% else %}
                             <div class="d-flex align-items-center text-success"><i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
                                 <span>Ish honada</span>
                             </div>
-                            <!-- {% endif %} -->
+                            {% endif %}
                         </td>
                         <td>
                             <div class="d-flex order-actions">
@@ -60,7 +60,7 @@
                             </div>
                         </td>
                     </tr>
-                    <!-- {% endfor %} -->
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

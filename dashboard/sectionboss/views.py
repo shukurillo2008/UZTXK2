@@ -50,9 +50,24 @@ def enter_exit(request):
         exit = models.EnterExit.objects.get(worker=worker, exit_time__isnull=True)
         exit.exit_time = datetime.now()
         exit.save()
+        return redirect('workers_list_url')
+    
     enter = models.EnterExit.objects.create(
         worker=worker,
         enter_time=datetime.now(),
     )
     enter.save()
     return redirect('workers_list_url')
+
+
+def worker_detail(request, id):
+    worker = models.Worker.objects.get(id=id)
+    sections = models.Section.objects.all().order_by('title')
+    work_shifts = models.WorkShift.objects.all().order_by('start_time')
+    context = {
+        'sections': sections,
+        'worker':worker,
+        'work_shifts': work_shifts
+    }
+
+    return render(request, 'sectionboss/worker_detail.html', context)

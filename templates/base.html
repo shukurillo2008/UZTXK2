@@ -24,6 +24,8 @@
 	<link rel="stylesheet" href="{% static 'assets/css/dark-theme.css' %}" />
 	<link rel="stylesheet" href="{% static 'assets/css/semi-dark.css' %}" />
 	<link rel="stylesheet" href="{% static 'assets/css/header-colors.css' %}" />
+	<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'assets/plugins/select2/css/select2-bootstrap4.css' %}" rel="stylesheet" />
 	<title>Dashtrans - Bootstrap5 Admin Template</title>
 </head>
 
@@ -770,6 +772,7 @@
             <script src="{% static 'assets/plugins/apexcharts-bundle/js/apexcharts.min.js' %}"></script>
             <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
             <script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap5.min.js' %}"></script>
+			<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
             <script>
                 $(document).ready(function() {
                     $('#Transaction-History').DataTable({

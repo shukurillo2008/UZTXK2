@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="{{worker.img.url}}" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+                            <div class="mt-3">
+                                <h4>{{worker.first_name}} {{worker.last_name}}</h4>
+                                <p class="mb-1">{{worker.section}}</p>
+                                <p class="mb-1">{{worker.worker_shift}}</p>
+                                <button class="btn btn-light">Follow</button>
+                                <button class="btn btn-light">Message</button>
+                            </div>
+                        </div>
+                        <hr class="my-4" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">First Name</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" value="{{worker.first_name}}" name="first_name" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Last name</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" value="{{worker.last_name}}" name="last_name"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Nfc</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" value="{{worker.nfc}}" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Section</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-select mb-0" aria-label="Default select example">
+									<option value="{{worker.section}}">{{worker.section}}</option>
+                                    {% for section in sections %}
+                                    <option value="{{section.title}}">{{section.title}}</option>
+                                    {% endfor %}
+								</select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">work shift</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-select mb-0" aria-label="Default select example">
+									<option selected value="{{worker.section}}">{{worker.worker_shift}}</option>
+									{% for time in work_shifts %}
+                                    <option value="1">{{time}}</option>
+                                    {% endfor %}
+								</select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Image</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="file" class="form-control" value="{{worker.img.url}}" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9">
+                                <input type="button" class="btn btn-light px-4" value="Save Changes" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
