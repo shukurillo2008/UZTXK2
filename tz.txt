@@ -11,7 +11,7 @@ section_boss -> staffuserga FK
 <----Smen---->
 start_time -> TimeField
 end_time -> TimeField
-property funksiya -> Binoda yoki binodan tashqarida
+
 
 
 <---Xodim---->
@@ -27,7 +27,7 @@ Nfc -> chr
 worker -> xodimga FK
 enter_time -> datetimeF
 exit_time -> datetimeF
-
+property funksiya -> Binoda yoki binodan tashqarida
 
 <----oshxona---->
 date -> dateF
