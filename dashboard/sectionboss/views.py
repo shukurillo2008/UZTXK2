@@ -64,10 +64,15 @@ def worker_detail(request, id):
     worker = models.Worker.objects.get(id=id)
     sections = models.Section.objects.all().order_by('title')
     work_shifts = models.WorkShift.objects.all().order_by('start_time')
+    enter_exit = models.EnterExit.objects.filter(worker = worker).order_by('-id')
+
     context = {
         'sections': sections,
         'worker':worker,
-        'work_shifts': work_shifts
+        'work_shifts': work_shifts,
+        'enter_exit':enter_exit
     }
 
     return render(request, 'sectionboss/worker_detail.html', context)
+
+    

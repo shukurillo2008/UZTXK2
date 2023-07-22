@@ -97,4 +97,47 @@
     </div>
 </div>
 
+<div class="card">
+    <div class="card-body">
+        <table class="table mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Entered</th>
+                    <th scope="col">Exit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for enter_exit in enter_exit %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{enter_exit.enter_time}}</td>
+                    <td>{{enter_exit.exit_time}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:;" aria-label="Previous">	<span aria-hidden="true">«</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="javascript:;">1</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="javascript:;">2</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="javascript:;">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:;" aria-label="Next">	<span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </table>
+    </div>
+</div>
+
 {% endblock %}
