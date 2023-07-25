@@ -71,3 +71,4 @@ def update_worker_status(sender, instance, **kwargs):
     else:
         worker.in_work = True
     worker.save()
+    

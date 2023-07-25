@@ -75,4 +75,23 @@ def worker_detail(request, id):
 
     return render(request, 'sectionboss/worker_detail.html', context)
 
+
+def worker_update(request):
+    worker_id = request.POST.get('worker_id')
+    first_name = request.POST.get('first_name')
+    last_name = request.POST.get('last_name')
+    img = request.FILES['img']
+    section = request.POST.get('section')
+    work_shift = request.POST.get('work_shift')
+
+    worker = models.Worker.objects.get(id=worker_id)
+    worker.first_name = first_name
+    worker.last_name = last_name
+    worker.img = img
+    worker.section = models.Section.objects.get(title = section)
+    worker.worker_shift = models.WorkShift.objects.get(id = int(work_shift))
+    worker.save()
+
+    return redirect('workers_detail_url', worker_id)
     
+
