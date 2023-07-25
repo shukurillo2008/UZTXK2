@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="col-lg-8">
+    <div class="card">
+        <div class="card-body">
+            <form action="{% url 'worker_update_url' %}", method="post">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">First Name</h6>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" value="{{worker.first_name}}" name="first_name" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">Last name</h6>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" value="{{worker.last_name}}" name="last_name"/>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">Nfc</h6>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" value="{{worker.nfc}}" name="nfc"/>
+                    <input type="hidden" value="{{worker.id}}" name="worker_id">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">Section</h6>
+                </div>
+                <div class="col-sm-9">
+                    <select class="form-select mb-0" aria-label="Default select example" name="section">
+                        <option value="{{worker.section}}">{{worker.section}}</option>
+                        {% for section in sections %}
+                        <option value="{{section.title}}">{{section.title}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">work shift</h6>
+                </div>
+                <div class="col-sm-9">
+                    <select class="form-select mb-0" aria-label="Default select example" name="work_shift">
+                        <option selected value="{{worker.worker_shift.id}}">{{worker.worker_shift}}</option>
+                        {% for time in work_shifts %}
+                        <option value="{{worker.worker_shift.id}}">{{time}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">Image</h6>
+                </div>
+                <div class="col-sm-9">
+                    <input type="file" class="form-control" value="{{worker.img}}" name="img"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9">
+                    <input type="submit" class="btn btn-light px-4" value="Save Changes" />
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
