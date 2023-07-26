@@ -5,38 +5,17 @@
 <div class="container">
     <div class="main-body">
         <div class="row">
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <img src="{{worker.img.url}}" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
-                            <div class="mt-3">
-                                <h4>{{worker.first_name}} {{worker.last_name}}</h4>
-                                <p class="mb-1">{{worker.section}}</p>
-                                <p class="mb-1">{{worker.worker_shift}}</p>
-                                <form action="{% url 'worker_delete_url' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" value="{{worker.id}}" name="worker_id">
-                                    <button type="submit" class="btn btn-light">Delete</button>
-                                </form>
-                            </div>
-                        </div>
-                        <hr class="my-4" />
-
-                    </div>
-                </div>
-            </div>
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{% url 'worker_update_url' %}", method="post" enctype="multipart/form-data">
+                        <form action="{% url 'worker_create_url' %}", method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row mb-3">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">First Name</h6>
                             </div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" value="{{worker.first_name}}" name="first_name" />
+                                <input type="text" class="form-control"  name="first_name" />
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -44,7 +23,7 @@
                                 <h6 class="mb-0">Last name</h6>
                             </div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" value="{{worker.last_name}}" name="last_name"/>
+                                <input type="text" class="form-control" name="last_name"/>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -52,7 +31,7 @@
                                 <h6 class="mb-0">Nfc</h6>
                             </div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" value="{{worker.nfc}}" name="nfc"/>
+                                <input type="text" class="form-control" name="nfc"/>
                                 <input type="hidden" value="{{worker.id}}" name="worker_id">
                             </div>
                         </div>
@@ -101,49 +80,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
-        <table class="table mb-0">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Entered</th>
-                    <th scope="col">Exit</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for enter_exit in enter_exit %}
-                <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td>{{enter_exit.enter_time}}</td>
-                    <td>{{enter_exit.exit_time}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:;" aria-label="Previous">	<span aria-hidden="true">«</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="javascript:;">1</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="javascript:;">2</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="javascript:;">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:;" aria-label="Next">	<span aria-hidden="true">»</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-        </table>
     </div>
 </div>
 

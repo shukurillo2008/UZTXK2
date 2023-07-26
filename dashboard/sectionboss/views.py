@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from main import models
 from datetime import datetime
+from django.http import HttpResponse
 
 def index(request):
     section = models.Section.objects.get(boss=request.user)
@@ -66,32 +67,71 @@ def worker_detail(request, id):
     work_shifts = models.WorkShift.objects.all().order_by('start_time')
     enter_exit = models.EnterExit.objects.filter(worker = worker).order_by('-id')
 
-    context = {
-        'sections': sections,
-        'worker':worker,
-        'work_shifts': work_shifts,
-        'enter_exit':enter_exit
-    }
+    if request.user == worker.section.boss or request.user.is_superuser == True:
+        context = {
+            'sections': sections,
+            'worker':worker,
+            'work_shifts': work_shifts,
+            'enter_exit':enter_exit
+        }
 
-    return render(request, 'sectionboss/worker_detail.html', context)
-
+        return render(request, 'sectionboss/worker_detail.html', context)
+    return HttpResponse("You have not access =( ")
 
 def worker_update(request):
     worker_id = request.POST.get('worker_id')
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
-    img = request.FILES['img']
+    img = request.FILES.get('img')
     section = request.POST.get('section')
     work_shift = request.POST.get('work_shift')
+    nfc = request.POST.get('nfc')
 
     worker = models.Worker.objects.get(id=worker_id)
+    if img is not None:
+        worker.img = img
     worker.first_name = first_name
     worker.last_name = last_name
-    worker.img = img
     worker.section = models.Section.objects.get(title = section)
     worker.worker_shift = models.WorkShift.objects.get(id = int(work_shift))
+    worker.nfc = nfc
     worker.save()
 
     return redirect('workers_detail_url', worker_id)
-    
 
+
+def worker_create(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        img = request.FILES.get('img')
+        work_shift = request.POST.get('work_shift')
+        nfc = request.POST.get('nfc')
+
+
+        models.Worker.objects.create(
+            first_name = first_name,
+            last_name = last_name,
+            img = img,
+            worker_shift = models.WorkShift.objects.get(id = int(work_shift)),
+            section = models.Section.objects.get(boss = request.user),
+            nfc = nfc
+        )
+        return redirect('worker_create_url')
+    else:
+        sections = models.Section.objects.all().order_by('title')
+        work_shifts = models.WorkShift.objects.all().order_by('start_time')
+
+        context = {
+            'sections': sections,
+            'work_shifts': work_shifts
+        }
+
+        return render(request, 'sectionboss/worker_create.html', context)
+
+
+def worker_delete(request):
+    worker_id = request.POST.get('worker_id')
+    worker = models.Worker.objects.get(id=int(worker_id))
+    worker.delete()
+    return HttpResponse('deleted')

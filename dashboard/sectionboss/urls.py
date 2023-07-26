@@ -8,4 +8,6 @@ urlpatterns = [
     path('enter/exit/', views.enter_exit, name='enter_exit_url'),
     path('workers/<int:id>/', views.worker_detail, name = 'workers_detail_url'),
     path('worker/update/', views.worker_update, name = 'worker_update_url'),
+    path('worker/create/', views.worker_create, name = 'worker_create_url'),
+    path('worker/delete/', views.worker_delete, name = 'worker_delete_url'),
 ]
