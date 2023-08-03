@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'sectionboss/base.html' %}
 {% load static %}
 {% block content %}
 <div class="card radius-10">
     <div class="card-body">
         <div class="d-flex align-items-center">
             <div>
-                <h5 class="mb-0">Binodan tashqarida</h5>
+                <h5 class="mb-0">Ishchilar</h5>
             </div>
             <div class="font-22 ms-auto"><i class='bx bx-dots-horizontal-rounded'></i>
             </div>
@@ -61,8 +61,34 @@
                         </td>
                     </tr>
                     {% endfor %}
+
                 </tbody>
             </table>
+            {% if workers.paginator.num_pages > 1 %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content">
+                    {% if workers.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ workers.previous_page_number }}">previous</a></li>
+                    {% endif %}
+            
+                    {% for page in workers.paginator.page_range %}
+                        {% if workers.number == page %}
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+            
+                    {% if workers.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ workers.next_page_number }}">next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ workers.paginator.num_pages }}">last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
         </div>
     </div>
 </div>

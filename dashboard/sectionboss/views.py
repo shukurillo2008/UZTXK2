@@ -2,23 +2,42 @@ from django.shortcuts import render, redirect
 from main import models
 from datetime import datetime
 from django.http import HttpResponse
+from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+def paginatorfun(per_page, page_number, list):
+    paginator = Paginator(list, per_page)
+    try:
+        result = paginator.page(page_number)
+    except PageNotAnInteger:
+        result = paginator.page(1)
+    except EmptyPage:
+        result = paginator.page(paginator.num_pages)
+    
+    return result
+
+
 
 def index(request):
     section = models.Section.objects.get(boss=request.user)
-    worker_count = models.Worker.objects.filter(section = section).count()
-    in_work = models.EnterExit.objects.filter(worker__section = section, exit_time__isnull = True).count()
-    not_in_work = models.Worker.objects.filter(section = section, in_work = False)
+    workers = models.Worker.objects.filter(section=section, in_work=False)
+    worker_count = workers.count()
+    in_work = models.EnterExit.objects.filter(worker__section=section, exit_time__isnull=True).count()
     not_in_work_count = worker_count - in_work
+    page_number = request.GET.get('page', 1)
+    not_in_work = paginatorfun(10, page_number, workers) 
 
     context = {
         'section': section,
         'workers_count': worker_count,
         'in_work': in_work,
         'not_in_work': not_in_work_count,
-        'workers':not_in_work
+        'workers': not_in_work 
     }
-    
+
     return render(request, 'sectionboss/index.html', context)
+
 
 def enter(request):
     worker_id = request.POST.get('worker_id')
@@ -32,12 +51,18 @@ def enter(request):
 
 
 def worker_list(request):
+    search = request.GET.get('search')
     section = models.Section.objects.get(boss = request.user)
-    workers = models.Worker.objects.filter(section = section)
+    if search:
+        workers = models.Worker.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search)|Q(id = search), section = section)
+    else:
+        workers = models.Worker.objects.filter(section = section)
+    page_number = request.GET.get('page', 1)
+    workers_page = paginatorfun(10, page_number, workers) 
 
     context = {
-        'boss': request.user,
-        'workers':workers,
+        'section':section,
+        'workers':workers_page
     }
 
     return render(request, 'sectionboss/worker_list.html', context)
@@ -66,13 +91,15 @@ def worker_detail(request, id):
     sections = models.Section.objects.all().order_by('title')
     work_shifts = models.WorkShift.objects.all().order_by('start_time')
     enter_exit = models.EnterExit.objects.filter(worker = worker).order_by('-id')
+    page_number = request.GET.get('page', 1)
+    list_page = paginatorfun(6, page_number, enter_exit) 
 
     if request.user == worker.section.boss or request.user.is_superuser == True:
         context = {
             'sections': sections,
             'worker':worker,
             'work_shifts': work_shifts,
-            'enter_exit':enter_exit
+            'enter_exit':list_page
         }
 
         return render(request, 'sectionboss/worker_detail.html', context)
