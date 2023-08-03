@@ -1,13 +1,27 @@
 from django.shortcuts import render, redirect
 from main import models
-from datetime import datetime
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse
+
+def pagenator_page(List, num, request):
+    paginator = Paginator(List, num)
+    pages = request.GET.get('page')
+    try:
+        list = paginator.page(pages)
+    except PageNotAnInteger:
+        list = paginator.page(1)
+    except EmptyPage:
+        list = paginator.page(paginator.num_pages)
+    return list
+
 
 def index_boss(request):
     staff = models.Worker.objects.all().count()
     enter = models.Worker.objects.filter(in_work=True).count()
     not_in_work = models.Worker.objects.filter(in_work=False)
     not_in_work_count = staff - enter
+
+    
 
     kitchen = models.Kitchen.objects.last()
     in_kitchen = models.InKitchen.objects.filter(kitchen = kitchen).count()
@@ -16,7 +30,7 @@ def index_boss(request):
         'in_work': enter,
         'not_in_work': not_in_work_count,
         'in_kitchen': in_kitchen,
-        'workers':not_in_work
+        'workers':pagenator_page(not_in_work, 10, request)
     }
     return render(request, 'boss/index.html', context)
 
@@ -31,29 +45,38 @@ def worker_detail(request, pk):
         'sections': sections,
         'worker':worker,
         'work_shifts': work_shifts,
-        'enter_exit':enter_exit
+        'enter_exit': pagenator_page(enter_exit, 6, request)
     }
 
     return render(request, 'boss/worker_detail.html', context)
 
 
 def section_list(request):
-    sections_count = models.Section.objects.all().count()
-    ctsDic = {}
-    for cts in models.Section.objects.all():
-        ctsQnt = models.Worker.objects.filter(section=cts).count()
-        ctsDic[cts] = ctsQnt
-
+    sections = models.Section.objects.all().order_by('title')
+    
     context = {
-        'sections':ctsDic,
-
-
+        'sections':pagenator_page(sections, 10, request),
     }
     return render(request, 'boss/section_list.html', context)
 
-def section_detail(request,id):
-    pass
 
+def section_detail(request, id):
+    section = models.Section.objects.get(id=id)
+    worker_count = models.Worker.objects.filter(section = section).count()
+    in_work = models.EnterExit.objects.filter(worker__section = section, worker__in_work=True    ).count()
+    not_in_work = models.Worker.objects.filter(section = section,)
+    not_in_work_count = worker_count - in_work
+
+    context = {
+        'section': section,
+        'workers_count': worker_count,
+        'in_work': in_work,
+        'not_in_work': not_in_work_count,
+        'workers':not_in_work
+    }
+    
+    return render(request, 'boss/section_detail.html', context)   
+ 
 
 def create_section_user(request):
     if request.user.is_superuser == True:
@@ -107,7 +130,7 @@ def section_update(request, id):
 
 def section_delate(request, id):
     section_delate = models.Section.objects.get(id=id)
-    if request.user.is_superuser == True or section_delate.boss == request.user:
+    if request.user.is_superuser == True:
         section_delate.delete()
     else:
         return HttpResponse('You have not access!')

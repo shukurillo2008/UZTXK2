@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'boss/base.html' %}
 {% load static %}
 {% block content %}
 
@@ -14,8 +14,11 @@
                                 <h4>{{worker.first_name}} {{worker.last_name}}</h4>
                                 <p class="mb-1">{{worker.section}}</p>
                                 <p class="mb-1">{{worker.worker_shift}}</p>
-                                <button class="btn btn-light">Follow</button>
-                                <button class="btn btn-light">Message</button>
+                                <form action="{% url 'worker_delete_url' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{worker.id}}" name="worker_id">
+                                    <button type="submit" class="btn btn-light">Delete</button>
+                                </form>
                             </div>
                         </div>
                         <hr class="my-4" />
@@ -26,6 +29,8 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
+                        <form action="{% url 'worker_update_url' %}", method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="row mb-3">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">First Name</h6>
@@ -47,7 +52,8 @@
                                 <h6 class="mb-0">Nfc</h6>
                             </div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" value="{{worker.nfc}}" />
+                                <input type="text" class="form-control" value="{{worker.nfc}}" name="nfc"/>
+                                <input type="hidden" value="{{worker.id}}" name="worker_id">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -55,7 +61,7 @@
                                 <h6 class="mb-0">Section</h6>
                             </div>
                             <div class="col-sm-9">
-                                <select class="form-select mb-0" aria-label="Default select example">
+                                <select class="form-select mb-0" aria-label="Default select example" name="section">
 									<option value="{{worker.section}}">{{worker.section}}</option>
                                     {% for section in sections %}
                                     <option value="{{section.title}}">{{section.title}}</option>
@@ -68,10 +74,10 @@
                                 <h6 class="mb-0">work shift</h6>
                             </div>
                             <div class="col-sm-9">
-                                <select class="form-select mb-0" aria-label="Default select example">
-									<option selected value="{{worker.section}}">{{worker.worker_shift}}</option>
+                                <select class="form-select mb-0" aria-label="Default select example" name="work_shift">
+									<option selected value="{{worker.worker_shift.id}}">{{worker.worker_shift}}</option>
 									{% for time in work_shifts %}
-                                    <option value="1">{{time}}</option>
+                                    <option value="{{time.id}}">{{time}}</option>
                                     {% endfor %}
 								</select>
                             </div>
@@ -81,19 +87,80 @@
                                 <h6 class="mb-0">Image</h6>
                             </div>
                             <div class="col-sm-9">
-                                <input type="file" class="form-control" value="{{worker.img.url}}" />
+                                <input type="file" class="form-control" value="{{worker.img.url}}" name="img"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-3"></div>
                             <div class="col-sm-9">
-                                <input type="button" class="btn btn-light px-4" value="Save Changes" />
+                                <input type="submit" class="btn btn-light px-4" value="Save Changes" />
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Entered</th>
+                    <th scope="col">Exit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for enter_exit in enter_exit %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{enter_exit.enter_time}}</td>
+                    <td>{{enter_exit.exit_time}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if enter_exit.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">««</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ enter_exit.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+                {% endif %}
+        
+                {% for num in enter_exit.paginator.page_range %}
+                <li class="page-item {% if page.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+        
+                {% if enter_exit.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ enter_exit.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ enter_exit.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">»»</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+            
+            
     </div>
 </div>
 

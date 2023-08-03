@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'boss/base.html' %}
 {% load static %}
 {% block content %}
 <div class="table-responsive">
@@ -8,12 +8,11 @@
                 <th>№</th>
                 <th>Bo`lim Id</th>
                 <th>Bo`lim</th>
-                <th>Keldi</th>
-                <th>Kelmadi</th>
+                <th>Bo`lim boshligi</th>
             </tr>
         </thead>
         <tbody>
-            {%for key, value in sections.items %}
+            {%for section in sections %}
 
             <tr>
                 <td>{{ forloop.counter }}</td>
@@ -21,27 +20,62 @@
                 <td>
                     <div class="d-flex align-items-center">
                         <div class="ms-2">
-                            <h6 class="mb-1 font-14"><a href="">{{key}} </a></h6>
+                            <h6 class="mb-1 font-14"><a href="{% url 'section_detail_url' section.id %}">{{section.title}} </a></h6>
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="d-flex align-items-center">
                         <div class="ms-2">
-                            <h6 class="mb-1 font-14">{{value}}</h6>
+                            <h6 class="mb-1 font-14">{{section.boss.first_name}}, {{section.boss.last_name}}</h6>
                         </div>
                 </td>
 
                 <td>
                     <div class="d-flex align-items-center">
                         <div class="ms-2">
-                            <h6 class="mb-1 font-14">{{kelmadi}}</h6>
+                            <h6 class="mb-1 font-14">   </h6>
                         </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if sections.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    <span aria-hidden="true">««</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ sections.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                </a>
+            </li>
+            {% endif %}
+    
+            {% for num in sections.paginator.page_range %}
+            <li class="page-item {% if page.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+    
+            {% if page.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ sections.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ sections.paginator.num_pages }}" aria-label="Last">
+                    <span aria-hidden="true">»»</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
 
 {% endblock %}

@@ -36,7 +36,7 @@
 		<div class="sidebar-wrapper" data-simplebar="true">
 			<div class="sidebar-header">
 				<div>
-					<h4 class="logo-text">{{section.title}}</h4>
+					<h4 class="logo-text"><a href="{% url 'index_boss_url' %}">Bosh sahifa</h4>
 				</div>
 				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
 				</div>
@@ -50,9 +50,9 @@
 						<div class="menu-title">Dashboard</div>
 					</a>
 					<ul>
-						<li> <a href="index.html"><i class="bx bx-right-arrow-alt"></i>eCommerce</a>
+						<li> <a href="{% url 'section_list_url' %}"><i class="bx bx-right-arrow-alt"></i>Bo`limlar royhati</a>
 						</li>
-						<li> <a href="index2.html"><i class="bx bx-right-arrow-alt"></i>Analytics</a>
+						<li> <a href="{% url 'create_section_url' %}"><i class="bx bx-right-arrow-alt"></i>Bo`liml royhatga olish</a>
 						</li>
 					</ul>
 				</li>
