@@ -26,7 +26,7 @@
 	<link rel="stylesheet" href="{% static 'assets/css/header-colors.css' %}" />
 	<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet" />
 	<link href="{% static 'assets/plugins/select2/css/select2-bootstrap4.css' %}" rel="stylesheet" />
-	<title>Dashtrans - Bootstrap5 Admin Template</title>
+	<title>UZTXK</title>
 </head>
 
 <body class="bg-theme bg-theme2">
@@ -65,7 +65,7 @@
 						<div class="menu-title">Oshxona</div>
 					</a>
 					<ul>
-						<li> <a href="{%  url 'kitchen_index_url'%}"><i class="bx bx-right-arrow-alt"></i>Odamlar</a>
+						<li> <a href="{%  url 'kitchen_index_url'%}"><i class="bx bx-right-arrow-alt"></i>Oshhonada</a>
 						</li>
 					</ul>
 				</li>
@@ -98,7 +98,7 @@
 					<div class="user-box dropdown">
 						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<div class="user-info ps-3">
-								<p class="user-name mb-0">{{section.boss}}</p>
+								<p class="user-name mb-0">{{request.user.username}}</p>
 								<p class="designattion mb-0">{{section}}</p>
 							</div>
 						</a>
