@@ -17,3 +17,20 @@ def index(request):
     }
 
     return render(request, 'kitchen/index.html', context)
+
+def kitchen_create(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        worker_shift = request.POST.get('work_shift')
+        models.Kitchen.objects.create(
+            date = date,
+            worker_shift = models.WorkShift.objects.get(id = worker_shift)
+        )
+    
+        return redirect('kitchen_create_url')
+    else:
+        worker_shift = models.WorkShift.objects.all()
+        context = {
+            'work_shifts': worker_shift
+        }
+        return render(request, 'kitchen/kitchen_create.html', context)
