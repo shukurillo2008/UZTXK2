@@ -21,12 +21,12 @@ def paginatorfun(per_page, page_number, list):
 
 def index(request):
     section = models.Section.objects.get(boss=request.user)
-    workers = models.Worker.objects.filter(section=section, in_work=False)
+    workers = models.Worker.objects.filter(section=section)
     worker_count = workers.count()
-    in_work = models.EnterExit.objects.filter(worker__section=section, exit_time__isnull=True).count()
+    in_work = workers.filter(in_work = True).count()
     not_in_work_count = worker_count - in_work
     page_number = request.GET.get('page', 1)
-    not_in_work = paginatorfun(10, page_number, workers) 
+    not_in_work = paginatorfun(10, page_number, workers.filter(in_work = False)) 
 
     context = {
         'section': section,
@@ -54,7 +54,7 @@ def worker_list(request):
     search = request.GET.get('search')
     section = models.Section.objects.get(boss = request.user)
     if search:
-        workers = models.Worker.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search)|Q(id = search), section = section)
+        workers = models.Worker.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search), section = section)
     else:
         workers = models.Worker.objects.filter(section = section)
     page_number = request.GET.get('page', 1)

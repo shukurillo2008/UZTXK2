@@ -54,16 +54,18 @@
 						</li>
 						<li> <a href="{% url 'workers_list_url' %}"><i class="bx bx-right-arrow-alt"></i>Ishchilar</a>
 						</li>
+						<li> <a href="{% url 'worker_create_url' %}"><i class="bx bx-right-arrow-alt"></i>Ishchi qo'shish</a>
+						</li>
 					</ul>
 				</li>
 				<li>
 					<a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class="bx bx-cookie"></i>
 						</div>
-						<div class="menu-title">Kitchen</div>
+						<div class="menu-title">Oshxona</div>
 					</a>
 					<ul>
-						<li> <a href="app-emailbox.html"><i class="bx bx-right-arrow-alt"></i>Email</a>
+						<li> <a href="{%  url 'kitchen_index_url'%}"><i class="bx bx-right-arrow-alt"></i>Odamlar</a>
 						</li>
 					</ul>
 				</li>
@@ -100,23 +102,6 @@
 								<p class="designattion mb-0">{{section}}</p>
 							</div>
 						</a>
-						<ul class="dropdown-menu dropdown-menu-end">
-							<li><a class="dropdown-item" href="javascript:;"><i class="bx bx-user"></i><span>Profile</span></a>
-							</li>
-							<li><a class="dropdown-item" href="javascript:;"><i class="bx bx-cog"></i><span>Settings</span></a>
-							</li>
-							<li><a class="dropdown-item" href="javascript:;"><i class='bx bx-home-circle'></i><span>Dashboard</span></a>
-							</li>
-							<li><a class="dropdown-item" href="javascript:;"><i class='bx bx-dollar-circle'></i><span>Earnings</span></a>
-							</li>
-							<li><a class="dropdown-item" href="javascript:;"><i class='bx bx-download'></i><span>Downloads</span></a>
-							</li>
-							<li>
-								<div class="dropdown-divider mb-0"></div>
-							</li>
-							<li><a class="dropdown-item" href="javascript:;"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
-							</li>
-						</ul>
 					</div>
 				</nav>
 			</div>
@@ -134,9 +119,9 @@
                 <!--end overlay-->
                 <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
                 <!--End Back To Top Button-->
-                <footer class="page-footer">
+                <!-- <footer class="page-footer">
         
-                </footer>
+                </footer> -->
     </div>
             <!--end wrapper-->
             <!--start switcher-->
