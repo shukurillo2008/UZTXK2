@@ -10,6 +10,7 @@ def index(request):
     not_in_kitchen = in_work - workers_count
 
     context = {
+        'in_work': in_work,
         'in_kitchen': in_kitchen,
         'workers_count': workers_count,
         'not_in_kitchen': not_in_kitchen
