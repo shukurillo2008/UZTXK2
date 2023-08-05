@@ -4,6 +4,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
 
 def paginatorfun(per_page, page_number, list):
@@ -18,7 +19,7 @@ def paginatorfun(per_page, page_number, list):
     return result
 
 
-
+@login_required(login_url='login_url')
 def index(request):
     section = models.Section.objects.get(boss=request.user)
     workers = models.Worker.objects.filter(section=section)
@@ -39,6 +40,7 @@ def index(request):
     return render(request, 'sectionboss/index.html', context)
 
 
+@login_required(login_url='login_url')
 def enter(request):
     worker_id = request.POST.get('worker_id')
     worker = models.Worker.objects.get(id=worker_id)
@@ -50,6 +52,7 @@ def enter(request):
     return redirect('index_url')
 
 
+@login_required(login_url='login_url')
 def worker_list(request):
     search = request.GET.get('search')
     section = models.Section.objects.get(boss = request.user)
@@ -68,6 +71,7 @@ def worker_list(request):
     return render(request, 'sectionboss/worker_list.html', context)
 
 
+@login_required(login_url='login_url')
 def enter_exit(request):
     worker_id = request.POST.get('worker_id')
     worker = models.Worker.objects.get(id=worker_id)
@@ -86,6 +90,7 @@ def enter_exit(request):
     return redirect('workers_list_url')
 
 
+@login_required(login_url='login_url')
 def worker_detail(request, id):
     worker = models.Worker.objects.get(id=id)
     sections = models.Section.objects.all().order_by('title')
@@ -105,6 +110,8 @@ def worker_detail(request, id):
         return render(request, 'sectionboss/worker_detail.html', context)
     return HttpResponse("You have not access =( ")
 
+
+@login_required(login_url='login_url')
 def worker_update(request):
     worker_id = request.POST.get('worker_id')
     first_name = request.POST.get('first_name')
@@ -157,6 +164,7 @@ def worker_create(request):
         return render(request, 'sectionboss/worker_create.html', context)
 
 
+@login_required(login_url='login_url')
 def worker_delete(request):
     worker_id = request.POST.get('worker_id')
     worker = models.Worker.objects.get(id=int(worker_id))

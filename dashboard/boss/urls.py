@@ -9,4 +9,5 @@ urlpatterns = [
     path('section/create', views.create_section_user, name='create_section_url'),
     path('section/update/<int:id>', views.section_update, name='section_update_url'),
     path('section/delate/<int:id>', views.section_delate, name='section_delate_url'),
+    path('search/', views.searchs, name='search_url'),
 ]

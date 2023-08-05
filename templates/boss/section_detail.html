@@ -97,6 +97,45 @@
 									{% endfor %}
 								</tbody>
 							</table>
+							<nav aria-label="Page navigation example">
+								<ul class="pagination">
+									{% if workers.has_previous %}
+									<li class="page-item">
+										<a class="page-link" href="?page=1" aria-label="First">
+											<span aria-hidden="true">««</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="?page={{ workers.previous_page_number }}" aria-label="Previous">
+											<span aria-hidden="true">«</span>
+										</a>
+									</li>
+									{% endif %}
+							
+									{% for num in workers.paginator.page_range %}
+									<li class="page-item {% if workers.number == num %}active{% endif %}">
+										<a class="page-link" href="?page={{ num }}">{{ num }}</a>
+									</li>
+									{% endfor %}
+							
+									{% if workers.has_next %}
+									<li class="page-item">
+										<a class="page-link" href="?page={{ workers.next_page_number }}" aria-label="Next">
+											<span aria-hidden="true">»</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="?page={{ workers.paginator.num_pages }}" aria-label="Last">
+											<span aria-hidden="true">»»</span>
+										</a>
+									</li>
+									{% endif %}
+								</ul>
+							</nav>
+							<div class="col">
+								<a type="button" class="btn btn-outline-danger px-5" href="{% url 'section_delate_url' section.id %}">Bolimni ochirish</a>
+								<a type="button" class="btn btn-outline-info px-5" href="{% url 'section_update_url' section.id %}">Yangilash</a>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from main import models
-
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     kitchen = models.Kitchen.objects.last()
@@ -18,6 +18,8 @@ def index(request):
 
     return render(request, 'kitchen/index.html', context)
 
+
+@login_required(login_url='login_url')
 def kitchen_create(request):
     if request.method == 'POST':
         date = request.POST.get('date')
